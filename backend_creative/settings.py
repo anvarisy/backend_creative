@@ -138,7 +138,7 @@ USE_TZ = True
 # STATIC_URL = '/static/'
 STATIC_URL = '/root/'
 STATICFILES_DIRS = (
-    os.path.join(BASE_DIR, 'static'),)
+    os.path.join(BASE_DIR, 'root'),)
 
 # STATIC_ROOT = os.path.join(BASE_DIR, 'root')
 STATIC_ROOT = '/home/creati19/backend_creative/root'
