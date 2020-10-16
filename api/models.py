@@ -84,6 +84,7 @@ class category(models.Model):
 class style(models.Model):
     category = models.ForeignKey(category, on_delete=models.CASCADE)
     style_name = models.CharField(max_length=40)
+    style_icon = models.ImageField(upload_to='style',blank=True)
     style_price = models.IntegerField()
 
 class types(models.Model):
