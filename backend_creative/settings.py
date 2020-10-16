@@ -144,8 +144,8 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'root')
 # STATIC_ROOT = '/home/creati19/backend_creative/root'
 
 MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-# MEDIA_ROOT = '/home/creati19/api/backend_creative/media'
+# MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_ROOT = '/home/creati19/api/backend_creative/media'
 
 AUTH_USER_MODEL = "api.user" 
 REST_FRAMEWORK = {
