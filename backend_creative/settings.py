@@ -138,14 +138,14 @@ USE_TZ = True
 # STATIC_URL = '/static/'
 STATIC_URL = '/root/'
 STATICFILES_DIRS = (
-    os.path.join(BASE_DIR, 'root'),)
+    os.path.join(BASE_DIR, 'static'),)
 
-# STATIC_ROOT = os.path.join(BASE_DIR, 'root')
-STATIC_ROOT = '/home/creati19/backend_creative/root'
+STATIC_ROOT = os.path.join(BASE_DIR, 'root')
+# STATIC_ROOT = '/home/creati19/backend_creative/root'
 
 MEDIA_URL = '/media/'
-# MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-MEDIA_ROOT = '/home/creati19/backend_creative/media'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+# MEDIA_ROOT = '/home/creati19/backend_creative/media'
 
 AUTH_USER_MODEL = "api.user" 
 REST_FRAMEWORK = {
