@@ -7,9 +7,10 @@ class TypeSerializer(serializers.ModelSerializer):
         fields = ('id','style_id','type_name','type_icon')
 
 class StyleSerializer(serializers.ModelSerializer):
+    types = TypeSerializer(many=True)
     class Meta:
         model = style
-        fields = ('id','category_id','style_name','style_price','style_icon')
+        fields = ('id','category_id','style_name','style_price','style_icon','types')
 
 class CategorySerializer(serializers.ModelSerializer):
     styles = StyleSerializer(many=True)
