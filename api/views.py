@@ -5,8 +5,9 @@ from rest_framework import generics
 # from rest_framework_simplejwt.authentication import JWTAuthentication
 # import base64
 # from rest_framework.generics import RetrieveAPIView
-from api.serializer import CategorySerializer, CheckOutSerializer, OrderSerializer, PaymentSerilizer, UserSerializer, UserSigninSerializer, UserSignoutSerializer
-from api.models import category, order, user
+from api.serializer import CategorySerializer, CheckOutSerializer, OrderSerializer, PaymentSerilizer, UserSerializer, UserSigninSerializer, UserSignoutSerializer,\
+    CarouselSerializer
+from api.models import category, order, user, carousel
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
@@ -197,3 +198,9 @@ class ApiPay(APIView):
                     print("Error while creating payment:")
                     print(payment.error)
         return Response({"url":redirect_url}, status=status.HTTP_200_OK)
+    
+class ApiCarousel(generics.ListAPIView):
+    serializer_class = CarouselSerializer
+    def get_queryset(self):
+        queryset= carousel.objects.all().order_by('-carousel_position')
+        return queryset

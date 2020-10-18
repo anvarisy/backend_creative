@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from api.models import category, order, style, types, user
+from api.models import carousel, category, order, style, types, user
 from django.contrib.auth import get_user_model
 from django.utils.crypto import get_random_string
 
@@ -78,3 +78,8 @@ class CheckOutSerializer(serializers.Serializer):
 class PaymentSerilizer(serializers.Serializer):
     order_id = serializers.CharField(required = True)
     total = serializers.IntegerField()
+
+class CarouselSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = carousel
+        fields = ('carousel_image','carousel_text','carousel_link','carousel_position')

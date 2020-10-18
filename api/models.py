@@ -111,4 +111,10 @@ class order(models.Model):
     is_finish = models.BooleanField(default=False)
     total = models.IntegerField(default=0)
     order_result = models.FileField(upload_to='result', default='#')
+
+class carousel(models.Model):
+    carousel_image = models.ImageField(upload_to='carousel')
+    carousel_text = models.CharField(max_length=160, blank = True, null = True)
+    carousel_link = models.CharField(max_length=160, blank=True, null = True)
+    carousel_position = models.IntegerField()
     
