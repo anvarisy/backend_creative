@@ -11,7 +11,8 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 """
 
 import os
-
+from datetime import timedelta
+# import datetime
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -39,9 +40,15 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'api',
     'rest_framework',
+    # 'rest_framework_simplejwt.token_blacklist',
+    # 'corsheaders',
+    # 'rest_framework_swagger'
+    'rest_framework.authtoken',
+    
 ]
 
 MIDDLEWARE = [
+    # 'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -144,23 +151,57 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'root')
 # STATIC_ROOT = '/home/creati19/public_html/api/root'
 
 MEDIA_URL = '/media/'
-# MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-MEDIA_ROOT = '/home/creati19/public_html/api/media'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+# MEDIA_ROOT = '/home/creati19/public_html/api/media'
 
 AUTH_USER_MODEL = "api.user" 
 REST_FRAMEWORK = {
     # 'DEFAULT_PERMISSION_CLASSES': [
-    #     'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly',
-    #     'rest_framework.permissions.IsAuthenticatedOrReadOnly',
+        # 'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly',
+        # 'rest_framework.permissions.IsAuthenticatedOrReadOnly',
     # ],
     #     'DEFAULT_AUTHENTICATION_CLASSES': (
     #     'rest_framework.authentication.BasicAuthentication',
     #     'rest_framework.authentication.SessionAuthentication',
     # ),
+    # 'DEFAULT_AUTHENTICATION_CLASSES': [
+        # 'api.authentication.ExpiringTokenAuthentication',
+        # 'rest_framework.authentication.TokenAuthentication',
+        # 'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
+        # 'rest_framework.authentication.SessionAuthentication',
+        #  'rest_framework_simplejwt.authentication.JWTAuthentication',
+    # ],
          'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend'],
           'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
     #     'DEFAULT_RENDERER_CLASSES': (
     #     'rest_framework.renderers.JSONRenderer',
-    # )
-    
+    # )    
 }
+TOKEN_EXPIRED_AFTER_SECONDS = 86400
+
+# SIMPLE_JWT = {
+#     'ACCESS_TOKEN_LIFETIME': timedelta(hours=1),
+#     'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
+#     'ROTATE_REFRESH_TOKENS': False,
+#     'BLACKLIST_AFTER_ROTATION': True,
+
+#     'ALGORITHM': 'HS256',
+#     'SIGNING_KEY': SECRET_KEY,
+#     'VERIFYING_KEY': None,
+#     'AUDIENCE': None,
+#     'ISSUER': None,
+
+#     'AUTH_HEADER_TYPES': ('Bearer',),
+#     'USER_ID_FIELD': 'email',
+#     'USER_ID_CLAIM': 'email',
+
+#     'AUTH_TOKEN_CLASSES': ('rest_framework_simplejwt.tokens.AccessToken',),
+#     'TOKEN_TYPE_CLAIM': 'token_type',
+
+#     # 'JTI_CLAIM': 'email',
+#     'JTI_CLAIM': 'jti',
+
+#     'SLIDING_TOKEN_REFRESH_EXP_CLAIM': 'refresh_exp',
+#     'SLIDING_TOKEN_LIFETIME': timedelta(hours=1),
+#     'SLIDING_TOKEN_REFRESH_LIFETIME': timedelta(days=1),
+# }

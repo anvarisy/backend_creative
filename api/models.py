@@ -1,7 +1,9 @@
 from django.db import models
-from django.contrib.auth.models  import BaseUserManager, AbstractBaseUser
+from django.contrib.auth.models  import BaseUserManager, AbstractBaseUser,\
+    PermissionsMixin
 from django.utils import timezone
 from django.utils.crypto import get_random_string
+
 # Create your models here.
 
 class UserManager(BaseUserManager):
@@ -30,7 +32,7 @@ class UserManager(BaseUserManager):
         user.save(using=self._db)
         return user
     
-class user(AbstractBaseUser):
+class user(AbstractBaseUser, PermissionsMixin):
     email = models.CharField(max_length=100, primary_key=True)
     c_user = models.CharField(max_length=20, unique=True,default=get_random_string(16))
     full_name = models.CharField(max_length=35,blank=True)
@@ -74,6 +76,8 @@ class user(AbstractBaseUser):
         "Is the user a member of staff?"
         # Simplest possible answer: All admins are staff
         return self.is_admin
+    
+   
 
 class category(models.Model):
     category_name = models.CharField(max_length=40)
@@ -82,27 +86,29 @@ class category(models.Model):
         return self.category_name
     
 class style(models.Model):
-    category = models.ForeignKey(category, on_delete=models.CASCADE)
+    category = models.ForeignKey(category, related_name='categories', on_delete=models.CASCADE)
     style_name = models.CharField(max_length=40)
     style_icon = models.ImageField(upload_to='style',blank=True)
     style_price = models.IntegerField()
 
 class types(models.Model):
-    style = models.ForeignKey(style, on_delete=models.CASCADE)
+    style = models.ForeignKey(style, related_name='styles', on_delete=models.CASCADE)
     type_name = models.CharField(max_length=60)
     type_icon = models.ImageField(upload_to='types')
     
 class order(models.Model):
     order_id = models.CharField(max_length=12, primary_key=True, default=get_random_string(10))
     user = models.ForeignKey(user, on_delete=models.CASCADE)
-    date_request = models.DateField(default=timezone.now)
+    category = models.ForeignKey(category,on_delete=models.CASCADE)
     style = models.ForeignKey(style, on_delete=models.CASCADE)
-    order_type = models.ForeignKey(types,on_delete=models.CASCADE)
-    order_image = models.ImageField(upload_to='order')
-    order_result = models.FileField(upload_to='result', default='#')
+    types = models.ForeignKey(types,on_delete=models.CASCADE)
+    order_image = models.ImageField(upload_to='order',null=True, blank=True)
+    date_request = models.DateField(default=timezone.now)
     is_remove_acc = models.BooleanField(default=False)
     is_include_file = models.BooleanField(default=False)
     is_fast = models.BooleanField(default=False)
     is_payed = models.BooleanField(default=False)
     is_finish = models.BooleanField(default=False)
+    total = models.IntegerField(default=0)
+    order_result = models.FileField(upload_to='result', default='#')
     

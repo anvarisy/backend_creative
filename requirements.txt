@@ -1,0 +1,5 @@
+django-cors-headers
+djangorestframework-simplejwt
+django
+djangorestframework
+django-rest-swagger
