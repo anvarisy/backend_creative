@@ -147,12 +147,12 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'static'),)
 
-STATIC_ROOT = os.path.join(BASE_DIR, 'root')
-# STATIC_ROOT = '/home/creati19/public_html/api/root'
+# STATIC_ROOT = os.path.join(BASE_DIR, 'root')
+STATIC_ROOT = '/home/creati19/public_html/api/root'
 
 MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-# MEDIA_ROOT = '/home/creati19/public_html/api/media'
+# MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_ROOT = '/home/creati19/public_html/api/media'
 
 AUTH_USER_MODEL = "api.user" 
 REST_FRAMEWORK = {
