@@ -118,3 +118,7 @@ class carousel(models.Model):
     carousel_link = models.CharField(max_length=160, blank=True, null = True)
     carousel_position = models.IntegerField()
     
+class gallery(models.Model):
+    image_gallery = models.ImageField(upload_to='gallery')
+    type_gallery=models.CharField(max_length=130)
+    

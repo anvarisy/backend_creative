@@ -6,8 +6,8 @@ from rest_framework import generics
 # import base64
 # from rest_framework.generics import RetrieveAPIView
 from api.serializer import CategorySerializer, CheckOutSerializer, OrderSerializer, PaymentSerilizer, UserSerializer, UserSigninSerializer, UserSignoutSerializer,\
-    CarouselSerializer
-from api.models import category, order, user, carousel
+    CarouselSerializer, GallerySerializer
+from api.models import carousel, category, gallery, order, user
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
@@ -203,4 +203,13 @@ class ApiCarousel(generics.ListAPIView):
     serializer_class = CarouselSerializer
     def get_queryset(self):
         queryset= carousel.objects.all().order_by('-carousel_position')
+        return queryset
+
+class ApiGallery(generics.ListAPIView):
+    serializer_class = GallerySerializer
+    def get_queryset(self):
+        queryset = gallery.objects.all()
+        types = self.request.query_params.get('type', None)
+        if types is not None:
+            queryset.filter(type_gallery=types)
         return queryset

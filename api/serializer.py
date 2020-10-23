@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from api.models import carousel, category, order, style, types, user
+from api.models import carousel, category, gallery, order, style, types, user
 from django.contrib.auth import get_user_model
 from django.utils.crypto import get_random_string
 
@@ -83,3 +83,8 @@ class CarouselSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = carousel
         fields = ('carousel_image','carousel_text','carousel_link','carousel_position')
+
+class GallerySerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = gallery
+        fields = ('id', 'image_gallery','type_gallery')

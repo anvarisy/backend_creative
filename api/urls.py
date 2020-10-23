@@ -1,5 +1,6 @@
 from django.urls import include, path
-from api.views import ApiCarousel, ApiCheckOut, ApiLogin, ApiLogout, ApiMenu, ApiOrder, ApiPay, ApiRegister
+from api.views import ApiCarousel, ApiCheckOut, ApiLogin, ApiLogout, ApiMenu, ApiOrder, ApiPay, ApiRegister,\
+    ApiGallery
 
 urlpatterns = [
     # path('', include(router.urls)),
@@ -12,4 +13,5 @@ urlpatterns = [
     path('checkout/',ApiCheckOut.as_view()),
     path('pay/',ApiPay.as_view()),
     path('carousel/',ApiCarousel.as_view()),
+    path('gallery/', ApiGallery.as_view())
 ]
