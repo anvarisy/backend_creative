@@ -95,6 +95,7 @@ class types(models.Model):
     style = models.ForeignKey(style, related_name='styles', on_delete=models.CASCADE)
     type_name = models.CharField(max_length=60)
     type_icon = models.ImageField(upload_to='types')
+    type_extra = models.IntegerField(default=0)
     
 class order(models.Model):
     order_id = models.CharField(max_length=12, primary_key=True, default=get_random_string(10))

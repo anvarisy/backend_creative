@@ -1,6 +1,6 @@
 from rest_framework.authentication import SessionAuthentication
 from rest_framework.permissions import IsAuthenticated
-from rest_framework import generics
+from rest_framework import generics,renderers
 # from rest_framework_simplejwt.tokens import RefreshToken
 # from rest_framework_simplejwt.authentication import JWTAuthentication
 # import base64
@@ -62,6 +62,7 @@ class ApiLogin(APIView):
     permission_classes = (AllowAny,)
     def post(self, request):
         serializer = UserSigninSerializer(data=request.data)
+        
         if not serializer.is_valid():
             return Response(serializer.errors, status = status.HTTP_400_BAD_REQUEST)
         client = authenticate(email=request.data['email'],password=request.data['password'])
@@ -96,6 +97,7 @@ class ApiLogin(APIView):
 #         return Response(res, status=status.HTTP_201_CREATED)
     
 class ApiOrder(generics.ListAPIView):
+    renderer_classes = [renderers.JSONRenderer]
     serializer_class = OrderSerializer
     authentication_classes = [SessionAuthentication, ExpiringTokenAuthentication]
     permission_classes = [IsAuthenticated]
@@ -147,14 +149,17 @@ class ApiLogout(APIView):
         return Response({'Status':'Sukses'}, status = status.HTTP_200_OK)
         
 class ApiCheckOut(APIView):
+    renderer_classes = [renderers.JSONRenderer]
     authentication_classes = [SessionAuthentication, ExpiringTokenAuthentication]
     permission_classes = [IsAuthenticated]
     parser_class = (FileUploadParser,)
     def post(self, request):
+        print(request.data)
         serializer = CheckOutSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
-        return Response(serializer.data, status=status.HTTP_200_OK)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST)
 
 class ApiPay(APIView):
     authentication_classes = [SessionAuthentication, ExpiringTokenAuthentication]

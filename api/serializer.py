@@ -8,7 +8,7 @@ UserModel = get_user_model()
 class TypeSerializer(serializers.ModelSerializer):
     class Meta:
         model = types
-        fields = ('id','style_id','type_name','type_icon')
+        fields = ('id','style_id','type_name','type_icon','type_extra')
 
 class StyleSerializer(serializers.ModelSerializer):
     styles = TypeSerializer(many=True)
