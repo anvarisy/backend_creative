@@ -26,7 +26,7 @@ class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = user
         # Atribut yang akan  diinput atau direturn sebagai data  saat post
-        fields = ('email','full_name','date_joined','password','c_user')
+        fields = ('email','full_name','date_joined','password')
 
     def create(self, validated_data):
         client = UserModel.objects.create(
@@ -50,6 +50,7 @@ class OrderSerializer(serializers.ModelSerializer):
                   'style_id','style_name',
                   'types_id','type_name',
                   'date_request','order_image',
+                  'num_character','note',
                   'is_remove_acc','is_include_file','is_fast','is_payed','is_finish','order_result','total')
         
 class UserSigninSerializer(serializers.Serializer):
@@ -70,6 +71,8 @@ class CheckOutSerializer(serializers.Serializer):
     is_include_file = serializers.BooleanField(default=False)
     is_fast = serializers.BooleanField(default=False)
     total = serializers.IntegerField(default=0)
+    num_character = serializers.IntegerField(default=1)
+    note = serializers.CharField()
     def create(self, validated_data):
         o = order.objects.create(**validated_data)
         o.save()

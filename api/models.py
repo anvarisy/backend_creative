@@ -34,7 +34,7 @@ class UserManager(BaseUserManager):
     
 class user(AbstractBaseUser, PermissionsMixin):
     email = models.CharField(max_length=100, primary_key=True)
-    c_user = models.CharField(max_length=20, unique=True,default=get_random_string(16))
+    # c_user = models.CharField(max_length=20, unique=True,default=get_random_string(16))
     full_name = models.CharField(max_length=35,blank=True)
     is_client = models.BooleanField(default=False)
     is_admin = models.BooleanField(default=False)
@@ -111,6 +111,8 @@ class order(models.Model):
     is_payed = models.BooleanField(default=False)
     is_finish = models.BooleanField(default=False)
     total = models.IntegerField(default=0)
+    num_character = models.IntegerField(default=1)
+    note = models.TextField()
     order_result = models.FileField(upload_to='result', default='#')
 
 class carousel(models.Model):
