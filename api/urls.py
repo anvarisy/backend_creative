@@ -9,7 +9,7 @@ urlpatterns = [
     path('register/',ApiRegister.as_view()),
     path('login/',ApiLogin.as_view()),
     path('logout/',ApiLogout.as_view()),
-    path('order/<str:email>',ApiOrder.as_view()),
+    path('order/<str:email>/',ApiOrder.as_view()),
     path('checkout/',ApiCheckOut.as_view()),
     path('pay/',ApiPay.as_view()),
     path('carousel/',ApiCarousel.as_view()),

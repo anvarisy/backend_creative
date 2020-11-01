@@ -39,14 +39,18 @@ class UserSerializer(serializers.ModelSerializer):
         print(client)
         return client
 
+class OrderImageSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = imageorder
+        fields = ('order_image',)
 
 class PostImage(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = imageorder
-        fields = ('order_image')
+        fields = ('order_id','order_image')
 
 class OrderSerializer(serializers.ModelSerializer):
-    orders = PostImage(many=True)
+    orders = OrderImageSerializer(many=True)
     category_name = serializers.CharField(source='category.category_name')
     style_name = serializers.CharField(source='style.style_name')
     type_name = serializers.CharField(source='types.type_name')
