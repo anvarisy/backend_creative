@@ -47,7 +47,7 @@ class OrderImageSerializer(serializers.HyperlinkedModelSerializer):
 class PostImage(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = imageorder
-        fields = ('order_id','order_image')
+        fields = ('order_image',)
 
 class OrderSerializer(serializers.ModelSerializer):
     orders = OrderImageSerializer(many=True)
