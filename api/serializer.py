@@ -1,5 +1,6 @@
 from rest_framework import serializers
-from api.models import carousel, category, gallery, order, style, types, user
+from api.models import carousel, category, gallery, order, style, types, user,\
+    imageorder
 from django.contrib.auth import get_user_model
 from django.utils.crypto import get_random_string
 
@@ -39,7 +40,13 @@ class UserSerializer(serializers.ModelSerializer):
         return client
 
 
+class PostImage(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = imageorder
+        fields = ('order_image')
+
 class OrderSerializer(serializers.ModelSerializer):
+    orders = PostImage(many=True)
     category_name = serializers.CharField(source='category.category_name')
     style_name = serializers.CharField(source='style.style_name')
     type_name = serializers.CharField(source='types.type_name')
@@ -49,9 +56,9 @@ class OrderSerializer(serializers.ModelSerializer):
                   'category_id','category_name',
                   'style_id','style_name',
                   'types_id','type_name',
-                  'date_request','order_image',
+                  'date_request',
                   'num_character','note',
-                  'is_remove_acc','is_include_file','is_fast','is_payed','is_finish','order_result','total')
+                  'is_remove_acc','is_include_file','is_fast','is_payed','is_finish','order_result','total','orders')
         
 class UserSigninSerializer(serializers.Serializer):
     email = serializers.CharField(required = True)
@@ -59,24 +66,37 @@ class UserSigninSerializer(serializers.Serializer):
 
 class UserSignoutSerializer(serializers.Serializer):
     token = serializers.CharField(required = True)
+   
+class CheckOutSerializer(serializers.HyperlinkedModelSerializer):
+    orders = PostImage(many=True)
+    class Meta:
+        model = order
+    # order_id = serializers.CharField(default=get_random_string(10))
+    # user_id = serializers.CharField()
+    # category_id = serializers.IntegerField()
+    # style_id = serializers.IntegerField()
+    # types_id = serializers.IntegerField()
+    # order_image = serializers.ImageField()
+    # is_remove_acc = serializers.BooleanField()
+    # is_include_file = serializers.BooleanField(default=False)
+    # is_fast = serializers.BooleanField(default=False)
+    # total = serializers.IntegerField(default=0)
+    # num_character = serializers.IntegerField(default=1)
+    # note = serializers.CharField()
     
-class CheckOutSerializer(serializers.Serializer):
-    order_id = serializers.CharField(default=get_random_string(10))
-    user_id = serializers.CharField()
-    category_id = serializers.IntegerField()
-    style_id = serializers.IntegerField()
-    types_id = serializers.IntegerField()
-    order_image = serializers.ImageField()
-    is_remove_acc = serializers.BooleanField()
-    is_include_file = serializers.BooleanField(default=False)
-    is_fast = serializers.BooleanField(default=False)
-    total = serializers.IntegerField(default=0)
-    num_character = serializers.IntegerField(default=1)
-    note = serializers.CharField()
+        fields= ('order_id','user_id',
+                  'category_id',
+                  'style_id',
+                  'types_id',
+                  'date_request',
+                  'num_character','note',
+                  'is_remove_acc','is_include_file','is_fast','is_payed','is_finish','order_result','total','orders')
     def create(self, validated_data):
+        detail_image = validated_data.pop('orders')
         o = order.objects.create(**validated_data)
-        o.save()
-        return o
+        for image in detail_image:
+            imageorder.objects.create(order_id=self.data['order_id'],**image)
+        return (o,detail_image)
 
 class PaymentSerilizer(serializers.Serializer):
     order_id = serializers.CharField(required = True)

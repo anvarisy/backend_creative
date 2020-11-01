@@ -103,7 +103,6 @@ class order(models.Model):
     category = models.ForeignKey(category,on_delete=models.CASCADE)
     style = models.ForeignKey(style, on_delete=models.CASCADE)
     types = models.ForeignKey(types,on_delete=models.CASCADE)
-    order_image = models.ImageField(upload_to='order',null=True, blank=True)
     date_request = models.DateField(default=timezone.now)
     is_remove_acc = models.BooleanField(default=False)
     is_include_file = models.BooleanField(default=False)
@@ -114,6 +113,10 @@ class order(models.Model):
     num_character = models.IntegerField(default=1)
     note = models.TextField()
     order_result = models.FileField(upload_to='result', default='#')
+
+class imageorder(models.Model):
+    order = models.ForeignKey(order, on_delete=models.CASCADE, related_name='orders')
+    order_image = models.ImageField(upload_to='order')
 
 class carousel(models.Model):
     carousel_image = models.ImageField(upload_to='carousel')
