@@ -90,12 +90,16 @@ class style(models.Model):
     style_name = models.CharField(max_length=40)
     style_icon = models.ImageField(upload_to='style',blank=True)
     style_price = models.IntegerField()
+    def __str__(self):
+        return self.style_name + ' - ' + self.category.category_name
 
 class types(models.Model):
     style = models.ForeignKey(style, related_name='styles', on_delete=models.CASCADE)
     type_name = models.CharField(max_length=60)
     type_icon = models.ImageField(upload_to='types')
     type_extra = models.IntegerField(default=0)
+    def __str__(self):
+        return self.type_name + ' - ' + self.style.style_name
     
 class order(models.Model):
     order_id = models.CharField(max_length=12, primary_key=True, default=get_random_string(10))
