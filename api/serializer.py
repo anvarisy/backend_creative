@@ -99,7 +99,7 @@ class CheckOutSerializer(serializers.HyperlinkedModelSerializer):
         detail_image = validated_data.pop('orders')
         o = order.objects.create(**validated_data)
         for image in detail_image:
-            imageorder.objects.create(order_id=self.data['order_id'],**image)
+            imageorder.objects.create(order_id=o,**image)
         return (o,detail_image)
 
 class PaymentSerilizer(serializers.Serializer):
